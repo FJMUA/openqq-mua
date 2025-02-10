@@ -1,14 +1,10 @@
 package cn.byteforge.openqq.ws;
 
 import cn.byteforge.openqq.exception.InvalidShardException;
-import cn.byteforge.openqq.http.OpenAPI;
-import cn.byteforge.openqq.http.entity.AccessToken;
-import cn.byteforge.openqq.http.entity.RecommendShard;
 import cn.byteforge.openqq.model.Certificate;
-import cn.byteforge.openqq.ws.entity.Session;
-import cn.byteforge.openqq.ws.entity.Shard;
+import cn.byteforge.openqq.ws.pojo.Session;
+import cn.byteforge.openqq.ws.pojo.Shard;
 import cn.byteforge.openqq.ws.handler.ChainHandler;
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
 import io.netty.channel.ChannelId;
 import lombok.AccessLevel;
@@ -18,7 +14,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

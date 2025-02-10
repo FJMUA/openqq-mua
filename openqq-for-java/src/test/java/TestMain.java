@@ -1,13 +1,9 @@
-import cn.byteforge.openqq.QQHelper;
 import cn.byteforge.openqq.http.APIEnum;
 import cn.byteforge.openqq.http.OpenAPI;
-import cn.byteforge.openqq.http.entity.AccessToken;
-import cn.byteforge.openqq.http.entity.RecommendShard;
-import cn.byteforge.openqq.model.Certificate;
 import cn.byteforge.openqq.ws.BotContext;
 import cn.byteforge.openqq.ws.QQConnection;
 import cn.byteforge.openqq.ws.WebSocketAPI;
-import cn.byteforge.openqq.ws.entity.Intent;
+import cn.byteforge.openqq.ws.pojo.Intent;
 import cn.byteforge.openqq.ws.event.EventListener;
 import cn.byteforge.openqq.ws.event.type.group.GroupAtMessageEvent;
 import cn.byteforge.openqq.ws.handler.ChainHandler;
@@ -15,8 +11,6 @@ import cn.byteforge.openqq.ws.handler.ChainHandler;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 public class TestMain {

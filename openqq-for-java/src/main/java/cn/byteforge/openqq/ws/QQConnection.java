@@ -5,7 +5,7 @@ import cn.byteforge.openqq.http.OpenAPI;
 import cn.byteforge.openqq.http.entity.AccessToken;
 import cn.byteforge.openqq.http.entity.RecommendShard;
 import cn.byteforge.openqq.model.Certificate;
-import cn.byteforge.openqq.ws.entity.Session;
+import cn.byteforge.openqq.ws.pojo.Session;
 import cn.byteforge.openqq.ws.handler.ChainHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

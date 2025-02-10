@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'cn.byteforge.openqq'
-version '0.2.7'
+version '0.3.0-SNAPSHOT'
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 sourceCompatibility = 1.8
@@ -77,73 +77,72 @@ javadoc {
     options.charSet = "UTF-8"
 }
 
-//publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            /** 默认使用项目的group/name/version信息 */
-//            /**
-//             groupId = ''
-//             artifactId = ''
-//             version = ''
-//             */
-//            /**
-//             * 如果是war包填写components.web，
-//             * 如果是jar包填写components.java,
-//             * 不过该方法没有manifest信息(会自动附带pom依赖信息)
-//             */
-//            from components.java
-//            artifact sourcesJar
-//            artifact javadocJar
-//            pom {
-//                name = project.name
-//                description = 'openqq-protocol 是在与官方qq机器人协议对接的基础上，额外onebot、satori等社区协议进行的适配sdk实现。'
-//                url = 'https://github.com/IUnlimit/openqq-protocol'
-//                licenses {
-//                    license {
-//                        name = 'AGPLv3'
-//                        url = 'https://www.gnu.org/licenses/agpl-3.0'
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id = 'IllTamer'
-//                        email = 'mail@illtamer.com'
-//                    }
-//                }
-//                scm {
-//                    url = 'https://github.com/IUnlimit/openqq-protocol'
-//                    connection = 'scm:git:https://github.com/IUnlimit/openqq-protocol.git'
-//                }
-//            }
-//        }
-//    }
-//
-//    repositories {
-//        // 发布到oss sonatype,非SNAPSHOT版必须GPG签名
-//        maven {
-//            name = 'oss'
-//            url = oss_sonatype_maven_url
-//            credentials {
-//                username oss_sonatype_maven_username
-//                password oss_sonatype_maven_password
-//            }
-//        }
-//        // oss snapshot 仓库，必须携带 -SNAPSHOT 后缀
-//        maven {
-//            name = 'oss-snapshot'
-//            url = oss_sonatype_snapshot_maven_url
-//            credentials {
-//                username = oss_sonatype_maven_username
-//                password = oss_sonatype_maven_password
-//            }
-//        }
-//    }
-//
-//    /**
-//     * GPG 签名jar包配置，注意顺序，必须在 publishing 配置之后
-//     * （因为使用了 publishing 中定义的 mavenJava）
-//     */
-//    signing {
-//        sign publishing.publications.mavenJava
-//    }
-//}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            /** 默认使用项目的group/name/version信息 */
+            /**
+             groupId = ''
+             artifactId = ''
+             version = ''
+             */
+            /**
+             * 如果是war包填写components.web，
+             * 如果是jar包填写components.java,
+             * 不过该方法没有manifest信息(会自动附带pom依赖信息)
+             */
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = project.name
+                description = 'openqq-protocol 是在与官方qq机器人协议对接的基础上，额外onebot、satori等社区协议进行的适配sdk实现。'
+                url = 'https://github.com/IUnlimit/openqq-protocol'
+                licenses {
+                    license {
+                        name = 'AGPLv3'
+                        url = 'https://www.gnu.org/licenses/agpl-3.0'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'IllTamer'
+                        email = 'mail@illtamer.com'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/IUnlimit/openqq-protocol'
+                    connection = 'scm:git:https://github.com/IUnlimit/openqq-protocol.git'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'maven'
+            url = 'https://maven.illtamer.com/releases'
+            credentials {
+                username iunlimitReleasesUsername
+                password iunlimitReleasesPassword
+            }
+        }
+        // oss snapshot 仓库，必须携带 -SNAPSHOT 后缀
+        maven {
+            name = 'maven-snapshot'
+            url = 'https://maven.illtamer.com/snapshots'
+            credentials {
+                username = iunlimitReleasesUsername
+                password = iunlimitReleasesPassword
+            }
+        }
+    }
+
+    /**
+     * GPG 签名jar包配置，注意顺序，必须在 publishing 配置之后
+     * （因为使用了 publishing 中定义的 mavenJava）
+     */
+    signing {
+        sign publishing.publications.mavenJava
+    }
+}

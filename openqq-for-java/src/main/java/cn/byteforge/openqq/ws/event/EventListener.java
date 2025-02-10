@@ -1,6 +1,6 @@
 package cn.byteforge.openqq.ws.event;
 
-import cn.byteforge.openqq.ws.entity.Intent;
+import cn.byteforge.openqq.ws.pojo.Intent;
 
 /**
  * 事件监听接口

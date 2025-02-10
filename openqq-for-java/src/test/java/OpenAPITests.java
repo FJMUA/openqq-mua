@@ -1,26 +1,7 @@
-import cn.byteforge.openqq.http.OpenAPI;
-import cn.byteforge.openqq.http.entity.AccessToken;
-import cn.byteforge.openqq.http.entity.FileInfo;
-import cn.byteforge.openqq.http.entity.RecommendShard;
-import cn.byteforge.openqq.http.entity.UploadFileType;
-import cn.byteforge.openqq.http.entity.entry.KeyValuesEntry;
-import cn.byteforge.openqq.message.MessageBuilder;
-import cn.byteforge.openqq.model.Certificate;
-import cn.byteforge.openqq.util.Maps;
 import cn.byteforge.openqq.ws.BotContext;
-import cn.byteforge.openqq.ws.QQConnection;
-import cn.byteforge.openqq.ws.WebSocketAPI;
-import cn.byteforge.openqq.ws.entity.Intent;
-import cn.byteforge.openqq.ws.entity.Shard;
-import cn.byteforge.openqq.ws.entity.data.GroupAtMessageData;
-import cn.byteforge.openqq.ws.event.EventListener;
-import cn.byteforge.openqq.ws.event.type.group.*;
-import cn.byteforge.openqq.ws.handler.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

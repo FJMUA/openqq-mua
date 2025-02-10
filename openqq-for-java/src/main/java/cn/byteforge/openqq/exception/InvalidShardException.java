@@ -1,6 +1,6 @@
 package cn.byteforge.openqq.exception;
 
-import cn.byteforge.openqq.ws.entity.Shard;
+import cn.byteforge.openqq.ws.pojo.Shard;
 import cn.hutool.core.lang.Pair;
 
 import java.util.Arrays;

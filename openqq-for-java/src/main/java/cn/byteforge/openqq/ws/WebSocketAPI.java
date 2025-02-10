@@ -2,9 +2,9 @@ package cn.byteforge.openqq.ws;
 
 import cn.byteforge.openqq.Global;
 import cn.byteforge.openqq.util.Maps;
-import cn.byteforge.openqq.ws.entity.Intent;
-import cn.byteforge.openqq.ws.entity.Session;
-import cn.byteforge.openqq.ws.entity.Shard;
+import cn.byteforge.openqq.ws.pojo.Intent;
+import cn.byteforge.openqq.ws.pojo.Session;
+import cn.byteforge.openqq.ws.pojo.Shard;
 import cn.byteforge.openqq.ws.entity.enumerate.OpCode;
 import cn.byteforge.openqq.ws.event.EventType;
 import cn.byteforge.openqq.ws.handler.APICallbackHandler;

@@ -1,4 +1,4 @@
-package cn.byteforge.openqq.ws.entity;
+package cn.byteforge.openqq.ws.pojo;
 
 import cn.hutool.core.lang.Assert;
 import lombok.Data;
