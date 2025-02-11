@@ -1,13 +1,14 @@
 package cn.fjmua.mc.plugin.openqq;
 
-import cn.byteforge.openqq.http.*;
+import cn.byteforge.openqq.http.APIEnum;
+import cn.byteforge.openqq.http.OpenAPI;
 import cn.byteforge.openqq.ws.BotContext;
 import cn.byteforge.openqq.ws.QQConnection;
 import cn.byteforge.openqq.ws.WebSocketAPI;
-import cn.byteforge.openqq.ws.entity.Intent;
 import cn.byteforge.openqq.ws.event.Event;
 import cn.byteforge.openqq.ws.event.EventListener;
 import cn.byteforge.openqq.ws.handler.ChainHandler;
+import cn.byteforge.openqq.ws.pojo.Intent;
 
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
@@ -15,10 +16,10 @@ import java.util.function.Supplier;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String appId = getParam("appId", args);
-        String clientSecret = getParam("secret", args);
+        String appId = getParam("-appId", args);
+        String clientSecret = getParam("-secret", args);
         if (appId == null || clientSecret == null) {
-            System.err.println("appId or secret argument are missing");
+            System.err.println("-appId or -secret argument are missing");
             return;
         }
 

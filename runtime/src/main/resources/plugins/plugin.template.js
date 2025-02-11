@@ -11,19 +11,8 @@ function getPluginInfo() {
         // 脚本作者：默认 unknown
         "author": "IllTamer",
         // 优先级：int 类型，升序排序，越小越先加载，默认 100
-        "priority": 100,
-        // 脚本作用域：单例(singleton) / 多例(prototype)，默认多例
-        "scope": "prototype"
+        "priority": 100
     }
-}
-
-/**
- * 监听的事件句柄
- * 本方法包括其内返回的所有字段均可省略
- * */
-function onEventIntent() {
-    // 默认不监听任何事件
-    return 1 << 5
 }
 
 /**

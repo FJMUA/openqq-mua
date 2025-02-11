@@ -1,0 +1,14 @@
+name: OpenQQ-MUA
+main: cn.fjmua.mc.plugin.openqq.bukkit.Bootstrap
+version: 1.0.0
+
+author: IllTamer
+
+load: POSTWORLD
+
+softdepend: []
+
+commands:
+  OpenQQ-MUA:
+    aliases:
+      - omua
