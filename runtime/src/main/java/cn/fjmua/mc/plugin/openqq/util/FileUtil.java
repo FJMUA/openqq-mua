@@ -15,7 +15,7 @@ public class FileUtil {
         try (BufferedReader br = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
             String line;
             while ((line = br.readLine()) != null) {
-                builder.append(line);
+                builder.append(line).append("\r\n");
             }
         } catch (Exception e) {
             log.error("Read file({}) content failed", file.getAbsolutePath());

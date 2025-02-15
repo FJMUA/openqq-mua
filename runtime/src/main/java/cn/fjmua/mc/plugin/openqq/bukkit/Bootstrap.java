@@ -35,6 +35,7 @@ public class Bootstrap extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+        new ConfigFile("redis.properties", instance);
         configFile = new ConfigFile("config.yml", instance);
         FileConfiguration config = configFile.getConfig();
         executor = Executors.newFixedThreadPool(20);

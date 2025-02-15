@@ -20,6 +20,7 @@ dependencies {
 
     compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.jetbrains:annotations:24.0.0'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     implementation 'org.graalvm.sdk:graal-sdk:24.0.1'
@@ -28,8 +29,13 @@ dependencies {
     implementation 'org.graalvm.truffle:truffle-api:24.0.1'
     implementation 'org.graalvm.js:js-scriptengine:24.0.1'
 
+    implementation 'redis.clients:jedis:5.2.0'
     implementation 'ch.qos.logback:logback-classic:1.2.13'
     implementation 'cn.byteforge.openqq:openqq-for-java:0.3.0-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 shadowJar {
