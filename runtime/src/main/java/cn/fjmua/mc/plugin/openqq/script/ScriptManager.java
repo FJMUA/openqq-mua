@@ -3,11 +3,17 @@ package cn.fjmua.mc.plugin.openqq.script;
 import cn.fjmua.mc.plugin.openqq.api.script.PluginInfo;
 import cn.fjmua.mc.plugin.openqq.bukkit.Bootstrap;
 import cn.fjmua.mc.plugin.openqq.util.FileUtil;
+import cn.fjmua.mc.plugin.openqq.util.ParseUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.graalvm.polyglot.Value;
 
 import java.io.File;
 import java.util.TreeSet;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+@Getter
 @Slf4j
 public class ScriptManager {
 
@@ -22,22 +28,31 @@ public class ScriptManager {
      */
     public void clearAndLoadScripts() {
         log.info("正在加载脚本文件");
-        doClearAndLoadScripts();
+        Bootstrap instance = Bootstrap.getInstance();
+        doClearAndLoadScripts(
+                () -> new File(instance.getDataFolder(), "plugins"),
+                templateFilePath -> instance.saveResource(templateFilePath, false)
+        );
         log.info("脚本加载完成，共 {} 个", scriptTree.size());
         for (Script script : scriptTree) {
+            PluginInfo pluginInfo = script.getPluginInfo();
             // => (优先级: 0)[测试脚本-20240201] - 已加载
-            log.info("=> (优先级: {})[{}-{}] - {}", script.getPriority(), script.getName(), script.getVersion(), script.getStatus().getDescription());
+            log.info("=> (优先级: {})[{}-{}] - {}", pluginInfo.getPriority(), pluginInfo.getName(), pluginInfo.getVersion(), script.getStatus().description());
         }
     }
 
-    protected void doClearAndLoadScripts() {
+    /**
+     * @param pluginFolderSupplier 提供脚本文件夹实例
+     * @param templateFilePathConsumer 消费模板脚本路径，生成文件
+     * */
+    protected void doClearAndLoadScripts(Supplier<File> pluginFolderSupplier, Consumer<String> templateFilePathConsumer) {
+        onLifeCycle(ScriptLifeCycleEnum.DESTROY);
         scriptTree.clear();
-        JavaScriptAgent.getCompiledScripts().clear();
+        GraalvmScriptAgent.getScriptContextMap().clear();
 
-        Bootstrap instance = Bootstrap.getInstance();
-        File pluginFolder = new File(instance.getDataFolder(), "plugins");
+        File pluginFolder = pluginFolderSupplier.get();
         if (!pluginFolder.exists()) {
-            instance.saveResource("plugins/plugin.template.js", false);
+            templateFilePathConsumer.accept("plugins/plugin.template.js");
         }
         File[] listFiles = pluginFolder.listFiles();
         if (listFiles == null) {
@@ -53,26 +68,30 @@ public class ScriptManager {
             }
 
             Script script = new Script();
+            PluginInfo pluginInfo = new PluginInfo();
             try {
-                script.setName(scriptName);
+                pluginInfo.setName(scriptName);
                 script.setFile(scriptFile);
                 script.setContent(FileUtil.readContent(scriptFile));
-                script.setStatus(Script.Status.LOADED_UNKNOWN);
+                script.setStatus(ScriptStatus.LOADED_UNKNOWN);
                 scriptTree.add(script);
 
-                // optional
-                PluginInfo pluginInfo = JavaScriptAgent.runFunc("getPluginInfo", script, PluginInfo.class);
-                script.setName(pluginInfo.getName());
-                script.setAuthor(pluginInfo.getAuthor());
-                script.setVersion(pluginInfo.getVersion());
-                script.setPriority(pluginInfo.getPriority());
-                script.setStatus(Script.Status.LOADED);
-            } catch (NoSuchMethodException ignored) {
-                // do noting TODO debug
-                log.error("Test error:", ignored);
+                Value pluginInfoValue = GraalvmScriptAgent.getField("pluginInfo", script);
+                if (pluginInfoValue != null) {
+                    pluginInfo = ParseUtil.toObject(pluginInfoValue, PluginInfo.class);
+                }
+                script.setStatus(ScriptStatus.LOADED);
             } catch (Exception e) {
-                log.error("加载脚本 {} 出错", script.getName(), e);
+                log.error("加载脚本 {} 出错", script.getPluginInfo().getName(), e);
             }
+            script.setPluginInfo(pluginInfo);
+        }
+        onLifeCycle(ScriptLifeCycleEnum.INIT);
+    }
+
+    protected void onLifeCycle(ScriptLifeCycleEnum lifeCycleEnum) {
+        for (Script script : scriptTree) {
+            lifeCycleEnum.onLifeCycle(script);
         }
     }
 
