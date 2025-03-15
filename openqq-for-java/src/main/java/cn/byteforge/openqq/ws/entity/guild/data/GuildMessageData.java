@@ -4,7 +4,6 @@ import cn.byteforge.openqq.ws.entity.guild.Author;
 import cn.byteforge.openqq.ws.entity.guild.Member;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @ToString(callSuper = true)
 @Data
-public class MessageCreateData {
+public class GuildMessageData {
 
     private Author author;
 

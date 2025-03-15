@@ -9,7 +9,7 @@ public enum APIEnum {
 
     SEND_GROUP_MESSAGE("https://api.sgroup.qq.com/v2/groups/%s/messages", true),
 
-    SEND_CHANNEL_MESSAGE("https://api.sgroup.qq.com/v2/channels/%s/messages", true),
+    SEND_CHANNEL_MESSAGE("https://api.sgroup.qq.com/channels/%s/messages", true),
 
     UPLOAD_FILE("https://api.sgroup.qq.com/v2/%s/%s/files", true),
 

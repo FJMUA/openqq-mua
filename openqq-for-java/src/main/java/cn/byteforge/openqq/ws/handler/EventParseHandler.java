@@ -5,6 +5,8 @@ import cn.byteforge.openqq.ws.entity.enumerate.OpCode;
 import cn.byteforge.openqq.ws.event.Event;
 import cn.byteforge.openqq.ws.event.type.friend.*;
 import cn.byteforge.openqq.ws.event.type.group.*;
+import cn.byteforge.openqq.ws.event.type.guild.AtMessageCreateEvent;
+import cn.byteforge.openqq.ws.event.type.guild.MessageCreateEvent;
 import cn.byteforge.openqq.ws.event.type.interact.InteractionEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,6 +62,10 @@ public class EventParseHandler extends ChainHandler {
                 "GROUP_DEL_ROBOT", GroupDelRobotEvent.class,
                 "GROUP_MSG_RECEIVE", GroupMsgReceiveEvent.class,
                 "GROUP_MSG_REJECT", GroupMsgRejectEvent.class
+        ));
+        TYPE_EVENT_MAP.putAll(Maps.of(
+                "MESSAGE_CREATE", MessageCreateEvent.class,
+                "AT_MESSAGE_CREATE", AtMessageCreateEvent.class
         ));
         TYPE_EVENT_MAP.putAll(Maps.of(
                 "FRIEND_ADD", FriendAddEvent.class,

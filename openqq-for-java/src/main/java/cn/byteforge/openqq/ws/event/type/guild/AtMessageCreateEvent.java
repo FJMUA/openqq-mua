@@ -7,12 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 频道消息创建事件
+ * 频道@机器人
  * */
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Data
-public class MessageCreateEvent extends Event {
+public class AtMessageCreateEvent extends Event {
 
     /**
      * 事件字段数据
