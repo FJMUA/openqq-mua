@@ -6,18 +6,8 @@ plugins {
 group = 'cn.fjmua.mc.plugin.openqq'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenLocal()
-    maven {url 'https://maven.illtamer.com/snapshots/'}
-    maven {url 'https://maven.illtamer.com/releases/'}
-    maven {url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'}
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-
+    implementation project(':openqq-for-java')
     compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     compileOnly 'org.jetbrains:annotations:24.0.0'
@@ -31,7 +21,9 @@ dependencies {
 
     implementation 'redis.clients:jedis:5.2.0'
     implementation 'ch.qos.logback:logback-classic:1.2.13'
-    implementation 'cn.byteforge.openqq:openqq-for-java:0.3.0-SNAPSHOT'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {
