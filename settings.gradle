@@ -1,0 +1,3 @@
+// settings.gradle
+rootProject.name = 'openqq-mua'
+include 'openqq-for-java', 'runtime' // 根据实际目录名调整

@@ -85,8 +85,8 @@ public class QQConnection {
 
             UUID uuid = _uuid != null ? _uuid : UUID.randomUUID();
             ChainHandler chainHandler = getChainHandler(handlerSupplier, uuid, context);
-            EventChannelHandler eventHandler = new EventChannelHandler(chainHandler);
             EventLoopGroup group = new NioEventLoopGroup();
+            EventChannelHandler eventHandler = new EventChannelHandler(chainHandler, group);
             try {
                 Bootstrap bootstrap = new Bootstrap()
                         .group(group)
@@ -125,13 +125,6 @@ public class QQConnection {
                 // bind channel to uuid
                 context.bindChannel(uuid, channel.id(), chainHandler);
 
-                // set context to ChainHandler
-                ChainHandler next = chainHandler;
-                while (next != null) {
-                    next.setMetaData(uuid, context);
-                    next = next.next();
-                }
-
                 // init session
                 context.initSession(uuid, sessionFunction);
 
@@ -164,13 +157,23 @@ public class QQConnection {
 
     @NotNull
     private static ChainHandler getChainHandler(@Nullable Supplier<ChainHandler> handlerSupplier, UUID uuid, BotContext context) {
+        log.info("Get chain handler for {}", uuid);
         // 初始化
+        ChainHandler handler;
         if (handlerSupplier != null) {
             context.getChainSupplierMap().put(uuid, handlerSupplier);
-            return handlerSupplier.get();
+            handler = handlerSupplier.get();
+        } else {
+            // 重连
+            handler = context.getChainSupplierMap().get(uuid).get();
         }
-        // 重连
-        return context.getChainSupplierMap().get(uuid).get();
+        // set context to ChainHandler
+        ChainHandler next = handler;
+        while (next != null) {
+            next.setMetaData(uuid, context);
+            next = next.next();
+        }
+        return handler;
     }
 
 }

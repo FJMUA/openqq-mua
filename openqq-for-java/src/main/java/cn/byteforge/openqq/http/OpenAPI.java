@@ -32,6 +32,16 @@ public class OpenAPI {
 
     /**
      * 发送群聊消息
+     * @param channelId 频道的 openid
+     * @param message 消息实例
+     * @param cert 访问凭证
+     * */
+    public static MessageResponse sendChannelMessage(String channelId, Message message, Certificate cert) {
+        return getAuthResponse(APIEnum.SEND_CHANNEL_MESSAGE.format(channelId), message.getData(), Method.POST, cert, MessageResponse.class);
+    }
+
+    /**
+     * 发送群聊消息
      * @param groupId 群聊的 openid
      * @param message 消息实例
      * @param cert 访问凭证

@@ -12,11 +12,6 @@ version '0.3.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 dependencies {
     implementation 'cn.hutool:hutool-http:5.8.26'
     implementation 'com.google.code.gson:gson:2.10.1'
@@ -34,16 +29,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
-    classifier = 'sources'
-}
-
-task javadocJar(type: Jar) {
-    from javadoc
-    classifier = 'javadoc'
 }
 
 tasks.withType(Jar).configureEach { task ->
@@ -77,6 +62,15 @@ javadoc {
     options.charSet = "UTF-8"
 }
 
+tasks.register('sourcesJar', Jar) {
+    def gradleVersion = gradle.gradleVersion
+    if ((GradleVersion.version(gradleVersion) <=> GradleVersion.version("5.1.0")) >= 0) {
+        archiveClassifier = 'sources'
+    } else {
+        classifier = 'sources'
+    }
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -92,8 +86,8 @@ publishing {
              * 不过该方法没有manifest信息(会自动附带pom依赖信息)
              */
             from components.java
-            artifact sourcesJar
-            artifact javadocJar
+//            artifact sourcesJar
+//            artifact javadocJar
             pom {
                 name = project.name
                 description = 'openqq-protocol 是在与官方qq机器人协议对接的基础上，额外onebot、satori等社区协议进行的适配sdk实现。'

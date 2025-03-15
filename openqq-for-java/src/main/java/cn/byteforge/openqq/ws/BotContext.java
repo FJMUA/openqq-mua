@@ -7,10 +7,7 @@ import cn.byteforge.openqq.ws.pojo.Shard;
 import cn.byteforge.openqq.ws.handler.ChainHandler;
 import cn.hutool.core.lang.Pair;
 import io.netty.channel.ChannelId;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +31,7 @@ public class BotContext {
     /**
      * 访问凭证
      * */
+    @ToString.Exclude
     private final Certificate certificate;
 
     /**
@@ -109,6 +107,7 @@ public class BotContext {
      * 将链接绑定机器人上下文
      */
     protected void bindChannel(UUID uuid, ChannelId id, ChainHandler chainHandler) {
+        log.debug("UUID({}) bind channel: {}", uuid, id.asLongText());
         connMap.put(uuid, new Pair<>(id, chainHandler));
     }
 

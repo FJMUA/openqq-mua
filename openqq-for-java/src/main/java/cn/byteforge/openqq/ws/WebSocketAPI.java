@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * WebSocket API 调用
@@ -64,7 +67,7 @@ public class WebSocketAPI {
                         "properties", properties
                 )
         ), uuid, EventType.READY, context);
-        JsonObject json = future.join();
+        JsonObject json = future.get(5, TimeUnit.SECONDS);
         Assert.notNull(json);
         Session session = EventParseHandler.GSON.fromJson(json, Session.class);
         if (context.getSessionMap().containsKey(uuid)) {
@@ -90,7 +93,11 @@ public class WebSocketAPI {
                         "seq", context.getHandledSeqMap().get(uuid)
                 )
         ), uuid, EventType.RESUMED, context);
-        Assert.notNull(future.join(), "Resume session failed, is it invalid ?");
+        try {
+            Assert.notNull(future.get(5, TimeUnit.SECONDS), "Resume session failed, is it invalid ?");
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+           log.error("Resume session interrupted", e);
+        }
         log.info("Resume session: {}", oldSession);
     }
 

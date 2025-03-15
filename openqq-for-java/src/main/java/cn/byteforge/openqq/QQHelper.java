@@ -3,6 +3,7 @@ package cn.byteforge.openqq;
 import cn.byteforge.openqq.http.OpenAPI;
 import cn.byteforge.openqq.http.entity.AccessToken;
 import cn.byteforge.openqq.model.Certificate;
+import cn.byteforge.openqq.task.ThreadPoolManager;
 import cn.byteforge.openqq.ws.BotContext;
 import cn.byteforge.openqq.ws.QQConnection;
 import lombok.SneakyThrows;
@@ -26,7 +27,7 @@ public class QQHelper {
         if (executor != null) {
             executor.shutdownNow();
         }
-        executor = Executors.newScheduledThreadPool(1);
+        executor = ThreadPoolManager.newSingleThreadScheduledExecutor("Token-" + System.currentTimeMillis());
         EXECUTOR_MAP.put(uuid, executor);
         executor.schedule(
                 () -> {
@@ -51,7 +52,9 @@ public class QQHelper {
      * */
     @SneakyThrows
     public static void closeChannel(UUID uuid, BotContext context) {
-       QQConnection.CLIENT_GROUPS.find(context.getConnMap().get(uuid).getKey()).close().sync();
+        log.debug("AccessToken auto refreshed channel({}) will be closed", uuid);
+        QQConnection.CLIENT_GROUPS.find(context.getConnMap().get(uuid).getKey()).close().sync();
+        log.debug("AccessToken auto refreshed channel({}) closed successful", uuid);
     }
 
 }
